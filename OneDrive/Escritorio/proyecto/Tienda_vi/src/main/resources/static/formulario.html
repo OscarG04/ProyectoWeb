@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!-- Esta es mi primera página HTML -->
+<html>
+    <head>
+        <title>TechShop</title>
+        <meta charset="UTF-8"/>
+        <link href="css/estilos.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+       <header class="encabezado">
+            <nav class="navegacion">
+                <a class="logo nav-link" href="index.html">TechShop</a>
+                <ul class="nav-menu">
+                <li class="nav-menu-item"><a class="logo nav-link nav-menu-link" href="pagina5.html">&triangleleft;</a></li>
+                <li class="nav-menu-item"><a class="logo nav-link nav-menu-link" href="pagina2.html">&triangleright;</a></li>
+                <li class="nav-menu-item"><a class="logo nav-link nav-menu-link" href="audio.html">Audios</a></li>
+                <li class="nav-menu-item"><a class="logo nav-link nav-menu-link" href="video.html">Videos</a></li>
+                <li class="nav-menu-item"><a class="logo nav-link nav-menu-link" href="iframe.html">iFrames</a></li>
+                <li class="nav-menu-item"><a class="logo nav-link nav-menu-link" href="formulario.html">Form</a></li>
+                </ul> 
+            </nav>
+        </header>
+        <aside>
+          <h2>Uso de forms</h2>
+          <p>El uso de form se estiula para recuperar informaci[on del usuario</p>
+        </aside>
+        <section>
+            <h2>Un form basico</h2>  
+            <article>
+                <h3>Su informacion</h3>
+                <form method ="post" action="/cliente/agregar">
+                    Nombre completo:<input type="text" name="Nombre" value="" size="40" /><br/>
+                    Contraseña: <input type="password" name="Clave" value="" size="40" /><br/>
+                    Edad: <input type="number" name="Edad" value="" /><br/>
+                    Correo: <input type="email" name="Correo" value="" size="30" /><br/>
+                    <input type="submit" value="Enviar" />
+                </form>
+            </article>
+        </section>
+        <footer>
+            &COPY;Derechos Reservados TechShop 2024
+        </footer>
+    </body>
+</html>
