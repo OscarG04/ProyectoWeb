@@ -1,11 +1,17 @@
 package com.tienda_vi.controller;
 
+import com.tienda_vi.domain.Categoria;
 import com.tienda_vi.service.CategoriaService;
+import com.tienda_vi.service.FirebaseStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model; 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/categoria")
@@ -16,12 +22,48 @@ public class CategoriaController {
     
     @GetMapping("/listado")
     public String listado(Model model) { 
-        var lista = categoriaService.getCategoria(false);
+        var lista = categoriaService.getCategorias(false);
         
-        model.addAttribute("categoria", lista);
+        model.addAttribute("categorias", lista);
         model.addAttribute("totalCategorias", lista.size());
         
-        return "/categoria/listado";
+        return "categoria/listado"; // Corregido
     }
     
+    @Autowired
+    private FirebaseStorageService firebaseStorageService; // Corregido el nombre del servicio
+    
+    @PostMapping("/guardar")
+    public String save(Categoria categoria, @RequestParam("imagenFile") MultipartFile imagenFile) {
+        
+        if (!imagenFile.isEmpty()) {
+            String ruta = firebaseStorageService.cargaImagen(imagenFile, "categoria", categoria.getIdCategoria());
+            categoria.setRutaImagen(ruta);
+        }
+        
+        categoriaService.save(categoria); // Guardar una vez es suficiente
+        return "redirect:/categoria/listado";
+    }
+    
+    @GetMapping("/modificar/{idcategoria}")
+    public String modifica(@PathVariable("idcategoria") Long idCategoria, Model model) {
+    Categoria categoria = categoriaService.getCategoriaById(idCategoria);
+    
+    if (categoria != null) {
+        model.addAttribute("categoria", categoria);
+        return "categoria/modifica";
+    } else {
+        // Manejar el caso en que la categoría no se encuentre
+        return "redirect:/categoria/listado";
+    }
 }
+    
+    @GetMapping("/eliminar/{idcategoria}")
+    public String elimina(@PathVariable("idcategoria") Long idCategoria) {
+    Categoria categoria = new Categoria();
+    categoria.setIdCategoria(idCategoria);
+    categoriaService.delete(categoria);
+    return "redirect:/categoria/listado";
+}
+}
+
