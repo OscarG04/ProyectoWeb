@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{layout/plantilla :: head}">
+    <title>Farmacia Aurum</title>
+</head>
+<body>
+    <header th:replace="~{layout/plantilla :: header}"/>
+    
+   
+    <section th:include="~{categoria/fragmentos :: botonesAgregar}"/>
+    
+    <section th:include="~{categoria/fragmentos :: listadoCategorias}"/>
+    
+    <section th:include="~{categoria/fragmentos :: agregarCategoria}"/>
+   
+    
+    <footer th:replace="~{layout/plantilla :: footer}"/>
+</body>
+</html>
