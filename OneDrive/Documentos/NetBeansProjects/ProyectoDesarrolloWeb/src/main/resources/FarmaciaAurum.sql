@@ -1,12 +1,12 @@
 /*Se crea la base de datos */
 drop schema if exists FarmaciaAurum;
-drop user if exists usuario_prueba;
+drop user if exists usuario_proyecto;
 CREATE SCHEMA FarmaciaAurum ;
 
 /*Se crea un usuario para la base de datos llamado "usuario_prueba" y tiene la contraseña "Usuario_Clave."*/
-create user 'usuario_prueba'@'%' identified by 'Usuar1o_Clave.';
+create user 'usuario_proyecto'@'%' identified by 'Proyecto_Clave.';
 
-/*Se asignan los prvilegios sobr ela base de datos Farmacia Aurum al usuario creado */
+/*Se asignan los prvilegios sobr ela base de datos TechShop al usuario creado */
 grant all privileges on FarmaciaAurum.* to 'usuario_prueba'@'%';
 flush privileges;
 
@@ -19,6 +19,25 @@ create table FarmaciaAurum.categoria (
   PRIMARY KEY (id_categoria))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
+
+create table FarmaciaAurum.consulta (
+    id_consulta INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(255),
+    descripcion TEXT,
+    fecha_hora DATETIME NOT NULL,
+    activo BOOLEAN
+
+);
+
+create table FarmaciaAurum.cita (
+    id_cita INT PRIMARY KEY AUTO_INCREMENT,
+    fecha_hora DATETIME NOT NULL,
+    nombre_cliente VARCHAR(100) NOT NULL,
+    telefono_cliente VARCHAR(15) NOT NULL,
+    comentario TEXT,
+    ruta_imagen varchar(1024),
+    activo boolean
+);
 
 create table FarmaciaAurum.producto (
   id_producto INT NOT NULL AUTO_INCREMENT,
@@ -49,6 +68,22 @@ CREATE TABLE FarmaciaAurum.usuario (
   PRIMARY KEY (`id_usuario`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
+
+create table FarmaciaAurum.mascota (
+  id_mascota INT NOT NULL AUTO_INCREMENT,
+  id_cliente INT NOT NULL,
+  nombre VARCHAR(50) NOT NULL,
+  especie VARCHAR(50) NOT NULL,
+  raza VARCHAR(50),
+  edad INT,
+  alergias VARCHAR(255),
+  condiciones_salud VARCHAR(255),
+  ruta_imagen VARCHAR(1024),
+  activo boolean,
+  PRIMARY KEY (id_mascota),
+  FOREIGN KEY (id_cliente) REFERENCES FarmaciaAurum.usuario(id_usuario)
+);
+
 
 create table FarmaciaAurum.factura (
   id_factura INT NOT NULL AUTO_INCREMENT,
@@ -81,12 +116,25 @@ INSERT INTO FarmaciaAurum.usuario (id_usuario, username,password,nombre, apellid
 (2,'rebeca','$2a$10$GkEj.ZzmQa/aEfDmtLIh3udIH5fMphx/35d0EYeqZL5uzgCJ0lQRi','Rebeca',  'Contreras Mora', 'acontreras@gmail.com', '5456-8789','https://upload.wikimedia.org/wikipedia/commons/0/06/Photo_of_Rebeca_Arthur.jpg',true),
 (3,'pedro','$2a$10$koGR7eS22Pv5KdaVJKDcge04ZB53iMiw76.UjHPY.XyVYlYqXnPbO','Pedro', 'Mena Loria',     'lmena@gmail.com',      '7898-8936','https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Eduardo_de_Pedro_2019.jpg/480px-Eduardo_de_Pedro_2019.jpg?20200109230854',true);
 
-/*Se insertan 3 categorias de productos como ejemplo */
+/*Se insertan 4 categorias de productos como ejemplo */
 INSERT INTO FarmaciaAurum.categoria (id_categoria,descripcion,ruta_imagen,activo) VALUES 
 ('1','Perros', 'https://static.fundacion-affinity.org/cdn/farfuture/PVbbIC-0M9y4fPbbCsdvAD8bcjjtbFc0NSP3lRwlWcE/mtime:1643275542/sites/default/files/los-10-sonidos-principales-del-perro.jpg',   true), 
 ('2','Gatos',  'https://s1.elespanol.com/2023/03/10/curiosidades/mascotas/747436034_231551832_1706x1280.jpg',   true),
 ('3','Conejos','https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Oryctolagus_cuniculus_Tasmania_2.jpg/250px-Oryctolagus_cuniculus_Tasmania_2.jpg',true),
 ('4','Pajaros','https://media.glamour.mx/photos/651f19319eb22a7409fd1f50/16:9/w_1920,c_limit/IMG_9465.jpeg',    false);
+
+/*Se insertan una consulta como ejemplo */
+INSERT INTO FarmaciaAurum.consulta(id_consulta,titulo,descripcion,fecha_hora,activo) VALUES
+('1','Mi perro pone su cabeza en la paredes','Mi perro ha agarrado la extraña costumbre de poner su cabeza contrar una pared y hacer presión, desconozco este comportamiento, espero que me puedan responder el por qué de este comportamiento','2024-04-12 12:00:00', true);
+
+/*Se insertan 2 citas como ejemplo */
+INSERT INTO FarmaciaAurum.cita (id_cita,fecha_hora,nombre_cliente,telefono_cliente,comentario,ruta_imagen,activo) VALUES 
+('1','2024-04-12 12:00:00','Carlos','5452-9866','Mi animal tiene estreñimiento','https://definicion.de/wp-content/uploads/2013/03/perro-1.jpg', false),
+('2','2024-05-04 15:00:0','Maria','2733-3455','Mi gata tiene dificultad para caminar','https://www.clinicas-veterpet.com/wp-content/uploads/2022/11/blog-embarazo-gata.jpg', true);
+
+/*Se inserta una mascota como ejemplo*/
+INSERT INTO FarmaciaAurum.mascota(id_mascota,id_cliente,nombre,especie,raza,edad,alergias,condiciones_salud,ruta_imagen,activo) VALUES
+('1','1','Cerberus','Perro','Pitbull','4','ninguna','buena','https://images.hive.blog/0x0/https://res.cloudinary.com/hpiynhbhq/image/upload/v1519253547/h2s1kr8emvaiwwq9cpap.jpg', true);
 
 /*Se insertan 16 productos por categoria */
 INSERT INTO FarmaciaAurum.producto (id_producto,id_categoria,descripcion,detalle,precio,existencias,ruta_imagen,activo) VALUES
