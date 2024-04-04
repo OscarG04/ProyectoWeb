@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Farmacia Aurum</title>
+    </head>
+    <body>
+        <!-- 1 Sección para crear el boton de agregar... llamará a una ventana modal-->
+        <section th:fragment="botonesAgregar" class="py-4 mb-4 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">   
+                        <button 
+                            type="button" 
+                            class="btn btn-primary btn-block" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#agregarGrooming">
+                            <i class="fas fa-plus"></i> [[#{grooming.agregar}]]
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2 Fragmento para agregar grooming, es la ventana modal -->
+        <section th:fragment="agregarGrooming">
+            <div id="agregarGrooming" 
+                 class="modal fade" 
+                 tabindex="-1" 
+                 aria-labelledby="exampleModalLabel" 
+                 aria-hidden="true">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h5 class="modal-title">[[#{grooming.agregar}]]</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div> 
+                        <form th:action="@{/grooming/guardar}" th:object="${grooming}"
+                              method="POST" class="was-validated" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="fecha y hora">[[#{grooming.fechaHora}]]</label>
+                                    <input type="text" class="form-control" name="fechaHora" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cliente">[[#{grooming.nombreCliente}]]</label>
+                                    <input type="text" class="form-control" name="nombreCliente" required="true"/>
+                                </div>
+                                 <div class="mb-3">
+                                    <label for="corte">[[#{grooming.tipoCorte}]]</label>
+                                    <input type="text" class="form-control" name="tipoCorte" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="telefono">[[#{grooming.telefonoCliente}]]</label>
+                                    <input type="text" class="form-control" name="telefonoCliente" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="comentario">[[#{grooming.comentario}]]</label>
+                                    <input type="text" class="form-control" name="comentario" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="activo">[[#{grooming.activo}]]</label>
+                                    <input class="form-check-input" type="checkbox" name="activo" id="activo"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="imagen">[[#{grooming.rutaImagen}]]</label>
+                                    <input class="form-control" type="file" name="imagenFile" onchange="readURL(this);"/>
+                                    <img id="blah" src="#" alt="your image" height="200"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" type="submit">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3 Sección principal para mostrar la informaccion de la entidad grooming -->
+        <section th:fragment="listadoGroomings" id="groomings">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>[[#{grooming.listado}]]</h4>
+                            </div>
+                            <div th:if="${groomings != null and !groomings.empty}">
+                                <table class="table table-striped table-hover">
+                                    <thead class="table-dark">
+                                        <tr><th>#</th>
+                                            <th>[[#{grooming.fechaHora}]]</th>
+                                            <th>[[#{grooming.nombreCliente}]]</th>
+                                            <th>[[#{grooming.tipoCorte}]]</th>
+                                            <th>[[#{grooming.telefonoCliente}]]</th>
+                                            <th>[[#{grooming.comentario}]]</th>
+                                            <th>[[#{grooming.rutaImagen}]]</th>
+                                            <th>[[#{grooming.activo}]]</th>
+                                            <th></th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="grooming, contador : ${groomings}">
+                                            <td>[[${contador.count}]]</td>
+                                            <td>[[${grooming.fechaHora}]]</td>
+                                            <td>[[${grooming.nombreCliente}]]</td>
+                                            <td>[[${grooming.tipoCorte}]]</td>
+                                            <td>[[${grooming.telefonoCliente}]]</td>
+                                            <td>[[${grooming.comentario}]]</td>
+                                            <td>[[${grooming.rutaImagen}]]</td>
+                                            <td>[[${grooming.activo}]]</td>
+                                            <td th:text="${grooming.activo} ? 'Activa' : 'Inactiva'" />
+                                            <td><a th:href="@{/grooming/eliminar/}+${grooming.idGrooming}"
+                                                   class="btn btn-danger">
+                                                    <i class="fas fa-trash"></i> [[#{accion.eliminar}]]</a>
+                                                <a th:href="@{/grooming/modificar/}+${grooming.idGrooming}"
+                                                   class="btn btn-success">
+                                                    <i class="fas fa-pencil"></i> [[#{accion.actualizar}]]</a></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center p-2" th:if="${groomings == null or groomings.empty}">
+                                <span>[[#{lista.vacia}]]</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center bg-success text-white mb-3">
+                            <div class="card-body">
+                                <h3>[[#{grooming.total}]]</h3>
+                                <h4 class="fs-2"><i class="fas fa-users"></i> [[${totalGroomings}]]</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4 Fragmento que se utiliza en la página modifca.html -->
+        <section th:fragment="editarGrooming">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <form method="POST"
+                          th:action="@{/grooming/guardar}" 
+                          th:object="${grooming}"
+                          class="was-validated"                          
+                          enctype="multipart/form-data">
+                        <input type="hidden" name="idGrooming" th:field="*{idGrooming}"/>
+                        <input type="hidden" name="rutaImagen" th:field="*{rutaImagen}"/>
+                        <section th:replace="~{grooming/fragmentos :: botonesEditar}"/>
+                        <div id=details>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h4>[[#{accion.actualizar}]]</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label for="fecha">[[#{grooming.fechaHora}]]</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="fechaHora" th:field="*{fechaHora}"
+                                                           required="true">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="cliente">[[#{grooming.nombreCliente}]]</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="nombreCliente" th:field="*{nombreCliente}"
+                                                           required="true">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="corte">[[#{grooming.tipoCorte}]]</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="tipoCorte" th:field="*{tipoCorte}"
+                                                           required="true">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="telefono">[[#{grooming.telefonoCliente}]]</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="telefonoCliente" th:field="*{telefonoCliente}"
+                                                           required="true">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="comentario">[[#{grooming.comentario}]]</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="comentario" th:field="*{comentario}"
+                                                           required="true">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="activo">[[#{grooming.activo}]]</label>
+                                                    <input class="form-check-input" 
+                                                           type="checkbox" 
+                                                           name="activo" 
+                                                           id="activo"
+                                                           th:field="*{activo}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="imagen">[[#{grooming.rutaImagen}]]</label>
+                                                    <input class="form-control" type="file" name="imagenFile"
+                                                           onchange="readURL(this);" />
+                                                    <img id="blah" th:src="@{${grooming.rutaImagen}}" alt="your image" height="200"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5 Fragmento que se utiliza en el fragmento anterior -->
+        <section th:fragment="botonesEditar">
+            <div class="container py-4 mb-4 bg-light">
+                <div class="row">
+                    <div class="col-md-4 d-grid">
+                        <a th:href="@{/grooming/listado}" class="btn btn-primary">
+                            <i class="fas fa-arrow-left"></i> [[#{accion.regresar}]]
+                        </a>
+                    </div>
+                    <div class="col-md-4 d-grid">                                
+                        <a th:href="@{/grooming/eliminar/}+${grooming.idGrooming}"
+                           class="btn btn-danger">
+                            <i class="fas fa-trash"></i> [[#{accion.eliminar}]]
+                        </a>
+                    </div>
+                    <div class="col-md-4 d-grid">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-check"></i> [[#{accion.guardar}]]
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

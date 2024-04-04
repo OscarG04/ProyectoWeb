@@ -39,6 +39,17 @@ create table FarmaciaAurum.cita (
     activo boolean
 );
 
+create table FarmaciaAurum.grooming (
+    id_grooming INT PRIMARY KEY AUTO_INCREMENT,
+    fecha_hora DATETIME NOT NULL,
+    nombre_cliente VARCHAR(100) NOT NULL,
+    tipo_corte VARCHAR(100) NOT NULL,
+    telefono_cliente VARCHAR(15) NOT NULL,
+    comentario TEXT,
+    ruta_imagen varchar(1024),
+    activo boolean
+);
+
 create table FarmaciaAurum.producto (
   id_producto INT NOT NULL AUTO_INCREMENT,
   id_categoria INT NOT NULL,
@@ -131,6 +142,10 @@ INSERT INTO FarmaciaAurum.consulta(id_consulta,titulo,descripcion,fecha_hora,act
 INSERT INTO FarmaciaAurum.cita (id_cita,fecha_hora,nombre_cliente,telefono_cliente,comentario,ruta_imagen,activo) VALUES 
 ('1','2024-04-12 12:00:00','Carlos','5452-9866','Mi animal tiene estreñimiento','https://definicion.de/wp-content/uploads/2013/03/perro-1.jpg', false),
 ('2','2024-05-04 15:00:0','Maria','2733-3455','Mi gata tiene dificultad para caminar','https://www.clinicas-veterpet.com/wp-content/uploads/2022/11/blog-embarazo-gata.jpg', true);
+
+/*Se inserta1 cita de grooming como ejemplo */
+INSERT INTO FarmaciaAurum.grooming (id_grooming,fecha_hora,nombre_cliente,tipo_corte,telefono_cliente,comentario,ruta_imagen,activo) VALUES 
+('1','2024-04-12 12:00:00','Carlos','pelo corto','5452-9866','Quiero que mi animal tenga el pelo corto','https://definicion.de/wp-content/uploads/2013/03/perro-1.jpg', true);
 
 /*Se inserta una mascota como ejemplo*/
 INSERT INTO FarmaciaAurum.mascota(id_mascota,id_cliente,nombre,especie,raza,edad,alergias,condiciones_salud,ruta_imagen,activo) VALUES
