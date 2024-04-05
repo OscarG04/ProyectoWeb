@@ -53,5 +53,28 @@ public class ProductoServiceImpl implements ProductoService {
     public Producto getProductoById(Long idProducto) {
        return productoDao.findById(idProducto).orElse(null);
     }
+    //Se define una consulta tipo JPA para recuperar los productos que se 
+    //encuentran en un rango de precios ordenados por descripcion acsendente
+    @Override
+    @Transactional(readOnly=true)
+    public List<Producto> consultaJPA(double precioInf, double precioSup){
+        return productoDao.findByPrecioBetweenOrderByDescripcion(precioInf, precioSup);
+    }
+    
+    //Se define una consulta tipo JPQL para recuperar los productos que se 
+    //encuentran en un rango de precios ordenados por descripcion acsendente
+    @Override
+    @Transactional(readOnly=true)
+    public List<Producto> consultaJPQL(double precioInf, double precioSup){
+        return productoDao.consultaJPQL(precioInf, precioSup);
+    }
+    
+    //Se define una consulta tipo SQL para recuperar los productos que se 
+    //encuentran en un rango de precios ordenados por descripcion acsendente
+    @Override
+    @Transactional(readOnly=true)
+    public List<Producto> consultaSQL(double precioInf, double precioSup){
+        return productoDao.consultaSQL(precioInf, precioSup);
+    }
     
 }
