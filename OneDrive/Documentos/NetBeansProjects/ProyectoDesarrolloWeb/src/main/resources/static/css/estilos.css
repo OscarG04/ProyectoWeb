@@ -1,10 +1,10 @@
 body {
-    background-color: bisque;
+    background-color: blue;
     margin: 0;
     box-sizing: border-box;
 }
 .aviso{
-    background-color: aquamarine;
+    background-color: yellow;
     color: black;
     font-weight: bold;
 }
@@ -26,7 +26,7 @@ body {
 }
 
 .nav-link{
-    color: white;
+    color: skyblue;
     text-decoration: none;
 }
 
@@ -63,7 +63,7 @@ body {
 aside {
     padding: 5px;
     position: fixed;
-    background-color: aquamarine;
+    background-color: yellow;
     color: black;
     top: 100px;
     left: 0;
@@ -75,7 +75,7 @@ section {
     padding: 5px;
     position: fixed;
     overflow-y: scroll;
-    background-color: bisque;
+    background-color: blue;
     color: black;
     top: 100px;
     left: 20%;
@@ -86,8 +86,8 @@ section {
 footer {
     text-align: center;
     position: fixed;
-    background-color: black;
-    color: white;
+    background-color: skyblue;
+    color: black;
     left: 0;
     bottom: 0;
     width: 100%;

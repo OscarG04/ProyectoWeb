@@ -18,7 +18,7 @@ public class Cita implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cita")
     private Long idCita;
-    private LocalDateTime fechaHora;
+    private String fecha;
     private String nombreCliente;
     private String telefonoCliente;
     private String comentario;

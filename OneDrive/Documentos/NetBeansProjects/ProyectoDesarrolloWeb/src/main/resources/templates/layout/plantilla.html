@@ -6,6 +6,7 @@
         <meta charset="UTF-8"/>
         <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
         <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
+        <link href="../../static/css/estilos.css" rel="stylesheet" type="text/css"/>
         <script th:src="@{/js/rutinas.js}"></script>
         <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
         <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
@@ -27,6 +28,8 @@
                             <li class="nav-item px-2"><a class="nav-link" th:href="@{/cita/listado}">[[#{plantilla.citas}]]</a></li>
                             <li class="nav-item px-2"><a class="nav-link" th:href="@{/grooming/listado}">[[#{plantilla.groomings}]]</a></li>
                             <li class="nav-item px-2"><a class="nav-link" th:href="@{/mascota/listado}">[[#{plantilla.mascotas}]]</a></li> 
+                            <li class="nav-item px-2"><a class="nav-link" th:href="@{/consulta/listado}">[[#{plantilla.consultas}]]</a></li> 
+                            <li class="nav-item px-2"><a class="nav-link" th:href="@{/cuidado/listado}">[[#{plantilla.cuidados}]]</a></li>
                              <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" 
                                    data-bs-toggle="dropdown" 

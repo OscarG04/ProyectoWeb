@@ -21,33 +21,45 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
 create table FarmaciaAurum.consulta (
-    id_consulta INT AUTO_INCREMENT PRIMARY KEY,
+    id_consulta INT NOT NULL AUTO_INCREMENT,
     titulo VARCHAR(255),
     descripcion TEXT,
-    fecha_hora DATETIME NOT NULL,
-    activo BOOLEAN
+    fecha VARCHAR(255) NOT NULL,
+    ruta_imagen varchar(1024),
+    activo BOOLEAN,
+  PRIMARY KEY (id_consulta)
+);
 
+create table FarmaciaAurum.cuidado (
+    id_cuidado INT NOT NULL AUTO_INCREMENT,
+    titulo VARCHAR(255),
+    descripcion TEXT,
+    ruta_imagen varchar(1024),
+    activo BOOLEAN,
+  PRIMARY KEY (id_cuidado)
 );
 
 create table FarmaciaAurum.cita (
-    id_cita INT PRIMARY KEY AUTO_INCREMENT,
-    fecha_hora DATETIME NOT NULL,
+    id_cita INT NOT NULL AUTO_INCREMENT,
+    fecha VARCHAR(255) NOT NULL,
     nombre_cliente VARCHAR(100) NOT NULL,
     telefono_cliente VARCHAR(15) NOT NULL,
     comentario TEXT,
     ruta_imagen varchar(1024),
-    activo boolean
+    activo boolean,
+  PRIMARY KEY (id_cita)
 );
 
 create table FarmaciaAurum.grooming (
-    id_grooming INT PRIMARY KEY AUTO_INCREMENT,
-    fecha_hora DATETIME NOT NULL,
+    id_grooming INT NOT NULL AUTO_INCREMENT,
+    fecha VARCHAR(255) NOT NULL,
     nombre_cliente VARCHAR(100) NOT NULL,
     tipo_corte VARCHAR(100) NOT NULL,
     telefono_cliente VARCHAR(15) NOT NULL,
     comentario TEXT,
     ruta_imagen varchar(1024),
-    activo boolean
+    activo boolean,
+  PRIMARY KEY (id_grooming)
 );
 
 create table FarmaciaAurum.producto (
@@ -82,7 +94,6 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 create table FarmaciaAurum.mascota (
   id_mascota INT NOT NULL AUTO_INCREMENT,
-  id_cliente INT NOT NULL,
   nombre VARCHAR(50) NOT NULL,
   especie VARCHAR(50) NOT NULL,
   raza VARCHAR(50),
@@ -91,8 +102,7 @@ create table FarmaciaAurum.mascota (
   condiciones_salud VARCHAR(255),
   ruta_imagen VARCHAR(1024),
   activo boolean,
-  PRIMARY KEY (id_mascota),
-  FOREIGN KEY (id_cliente) REFERENCES FarmaciaAurum.usuario(id_usuario)
+  PRIMARY KEY (id_mascota)
 );
 
 
@@ -134,22 +144,26 @@ INSERT INTO FarmaciaAurum.categoria (id_categoria,descripcion,ruta_imagen,activo
 ('3','Conejos','https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Oryctolagus_cuniculus_Tasmania_2.jpg/250px-Oryctolagus_cuniculus_Tasmania_2.jpg',true),
 ('4','Pajaros','https://media.glamour.mx/photos/651f19319eb22a7409fd1f50/16:9/w_1920,c_limit/IMG_9465.jpeg',    false);
 
-/*Se insertan una consulta como ejemplo */
-INSERT INTO FarmaciaAurum.consulta(id_consulta,titulo,descripcion,fecha_hora,activo) VALUES
-('1','Mi perro pone su cabeza en la paredes','Mi perro ha agarrado la extraña costumbre de poner su cabeza contrar una pared y hacer presión, desconozco este comportamiento, espero que me puedan responder el por qué de este comportamiento','2024-04-12 12:00:00', true);
+/*Se inserta una consulta como ejemplo */
+INSERT INTO FarmaciaAurum.consulta(id_consulta,titulo,descripcion,fecha,ruta_imagen,activo) VALUES
+('1','Mi perro pone su cabeza en la paredes','Mi perro ha agarrado la extraña costumbre de poner su cabeza contrar una pared y hacer presión, desconozco este comportamiento, espero que me puedan responder el por qué de este comportamiento','2024-04-12 12:00:00','https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png', true);
+
+/*Se inserta un cuidado como ejemplo */
+INSERT INTO FarmaciaAurum.cuidado(id_cuidado,titulo,descripcion,ruta_imagen,activo) VALUES
+('1','La alimentación adecuada para tus perros','La nutrición es una parte importante para el cuidado y atención de tu mascota. Su alimentación debe ser equilibrada y adaptada según su edad, tamaño, actividad física y condiciones de salud, para que así pueda contar con los nutrientes necesarios.','https://dce-documents.s3.amazonaws.com/s3fs-public/styles/max_2600x2600/public/2023-04/alimentacion-perros.jpg.webp?VersionId=uVD_354bnPHUMgfz.mdMObtu3KZBBfvp&itok=m5_DCEAK', true);
 
 /*Se insertan 2 citas como ejemplo */
-INSERT INTO FarmaciaAurum.cita (id_cita,fecha_hora,nombre_cliente,telefono_cliente,comentario,ruta_imagen,activo) VALUES 
-('1','2024-04-12 12:00:00','Carlos','5452-9866','Mi animal tiene estreñimiento','https://definicion.de/wp-content/uploads/2013/03/perro-1.jpg', false),
-('2','2024-05-04 15:00:0','Maria','2733-3455','Mi gata tiene dificultad para caminar','https://www.clinicas-veterpet.com/wp-content/uploads/2022/11/blog-embarazo-gata.jpg', true);
+INSERT INTO FarmaciaAurum.cita (id_cita,fecha,nombre_cliente,telefono_cliente,comentario,ruta_imagen,activo) VALUES 
+('1','2024-04-12','Carlos','5452-9866','Mi animal tiene estreñimiento','https://definicion.de/wp-content/uploads/2013/03/perro-1.jpg', false),
+('2','2024-05-04','Maria','2733-3455','Mi gata tiene dificultad para caminar','https://www.clinicas-veterpet.com/wp-content/uploads/2022/11/blog-embarazo-gata.jpg', true);
 
 /*Se inserta1 cita de grooming como ejemplo */
-INSERT INTO FarmaciaAurum.grooming (id_grooming,fecha_hora,nombre_cliente,tipo_corte,telefono_cliente,comentario,ruta_imagen,activo) VALUES 
-('1','2024-04-12 12:00:00','Carlos','pelo corto','5452-9866','Quiero que mi animal tenga el pelo corto','https://definicion.de/wp-content/uploads/2013/03/perro-1.jpg', true);
+INSERT INTO FarmaciaAurum.grooming (id_grooming,fecha,nombre_cliente,tipo_corte,telefono_cliente,comentario,ruta_imagen,activo) VALUES 
+('1','2024-04-12','Carlos','pelo corto','5452-9866','Quiero que mi animal tenga el pelo corto','https://definicion.de/wp-content/uploads/2013/03/perro-1.jpg', true);
 
 /*Se inserta una mascota como ejemplo*/
-INSERT INTO FarmaciaAurum.mascota(id_mascota,id_cliente,nombre,especie,raza,edad,alergias,condiciones_salud,ruta_imagen,activo) VALUES
-('1','1','Cerberus','Perro','Pitbull','4','ninguna','buena','https://images.hive.blog/0x0/https://res.cloudinary.com/hpiynhbhq/image/upload/v1519253547/h2s1kr8emvaiwwq9cpap.jpg', true);
+INSERT INTO FarmaciaAurum.mascota(id_mascota,nombre,especie,raza,edad,alergias,condiciones_salud,ruta_imagen,activo) VALUES
+('1','Cerberus','Perro','Pitbull','4','ninguna','buena','https://images.hive.blog/0x0/https://res.cloudinary.com/hpiynhbhq/image/upload/v1519253547/h2s1kr8emvaiwwq9cpap.jpg', true);
 
 /*Se insertan 16 productos por categoria */
 INSERT INTO FarmaciaAurum.producto (id_producto,id_categoria,descripcion,detalle,precio,existencias,ruta_imagen,activo) VALUES

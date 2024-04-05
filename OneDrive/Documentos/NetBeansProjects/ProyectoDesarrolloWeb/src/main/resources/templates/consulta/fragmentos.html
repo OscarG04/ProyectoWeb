@@ -15,17 +15,17 @@
                             type="button" 
                             class="btn btn-primary btn-block" 
                             data-bs-toggle="modal" 
-                            data-bs-target="#agregarCita">
-                            <i class="fas fa-plus"></i> [[#{cita.agregar}]]
+                            data-bs-target="#agregarConsulta">
+                            <i class="fas fa-plus"></i> [[#{consulta.agregar}]]
                         </button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 2 Fragmento para agregar cita, es la ventana modal -->
-        <section th:fragment="agregarCita">
-            <div id="agregarCita" 
+        <!-- 2 Fragmento para agregar consulta, es la ventana modal -->
+        <section th:fragment="agregarConsulta">
+            <div id="agregarConsulta" 
                  class="modal fade" 
                  tabindex="-1" 
                  aria-labelledby="exampleModalLabel" 
@@ -33,38 +33,33 @@
                 <div class="modal-dialog modal-md">
                     <div class="modal-content">
                         <div class="modal-header bg-info text-white">
-                            <h5 class="modal-title">[[#{cita.agregar}]]</h5>
+                            <h5 class="modal-title">[[#{consulta.agregar}]]</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div> 
-                        <form th:action="@{/cita/guardar}" th:object="${cita}"
+                        <form th:action="@{/consulta/guardar}" th:object="${consulta}"
                               method="POST" class="was-validated" enctype="multipart/form-data">
                             <div class="modal-body">
                                 <div class="mb-3">
-                                    <label for="fecha">[[#{cita.fecha}]]</label>
+                                    <label for="titulo">[[#{consulta.titulo}]]</label>
+                                    <input type="text" class="form-control" name="titulo" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descripcion">[[#{consulta.descripcion}]]</label>
+                                    <input type="text" class="form-control" name="descripcion" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fecha">[[#{consulta.fecha}]]</label>
                                     <input type="text" class="form-control" name="fecha" required="true"/>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="nombreCliente">[[#{cita.nombreCliente}]]</label>
-                                    <input type="text" class="form-control" name="nombreCliente" required="true"/>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="telefonoCliente">[[#{cita.telefonoCliente}]]</label>
-                                    <input type="text" class="form-control" name="telefonoCliente" required="true"/>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="comentario">[[#{cita.comentario}]]</label>
-                                    <input type="text" class="form-control" name="comentario" required="true"/>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="activo">[[#{cita.activo}]]</label>
-                                    <input class="form-check-input" type="checkbox" name="activo" id="activo"/>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="imagen">[[#{cita.rutaImagen}]]</label>
+                                    <label for="imagen">[[#{consulta.rutaImagen}]]</label>
                                     <input class="form-control" type="file" name="imagenFile" onchange="readURL(this);"/>
                                     <img id="blah" src="#" alt="your image" height="200"/>
                                 </div>
-                            </div>
+                               <div class="mb-3">
+                                    <label for="activo">[[#{consulta.activo}]]</label>
+                                    <input class="form-check-input" type="checkbox" name="activo" id="activo"/>
+                                </div>
                             <div class="modal-footer">
                                 <button class="btn btn-primary" type="submit">Guardar</button>
                             </div>
@@ -74,47 +69,43 @@
             </div>
         </section>
 
-        <!-- 3 Sección principal para mostrar la informaccion de la entidad cita -->
-        <section th:fragment="listadoCitas" id="citas">
+        <!-- 3 Sección principal para mostrar la informaccion de la entidad consulta -->
+        <section th:fragment="listadoConsultas" id="consultas">
             <div class="container">
                 <div class="row">
                     <div class="col-md-9">
                         <div class="card">
                             <div class="card-header">
-                                <h4>[[#{cita.listado}]]</h4>
+                                <h4>[[#{consulta.listado}]]</h4>
                             </div>
-                            <div th:if="${citas != null and !citas.empty}">
+                            <div th:if="${consultas != null and !consultas.empty}">
                                 <table class="table table-striped table-hover">
                                     <thead class="table-dark">
                                         <tr><th>#</th>
-                                            <th>[[#{cita.fecha}]]</th>
-                                            <th>[[#{cita.nombreCliente}]]</th>
-                                            <th>[[#{cita.telefonoCliente}]]</th>
-                                            <th>[[#{cita.comentario}]]</th>
-                                            <th>[[#{cita.rutaImagen}]]</th>
-                                            <th>[[#{cita.activo}]]</th>
+                                            <th>[[#{consulta.titulo}]]</th>
+                                            <th>[[#{consulta.descripcion}]]</th>
+                                            <th>[[#{consulta.fecha}]]</th>
+                                            <th>[[#{consulta.rutaImagen}]]</th>
+                                            <th>[[#{consulta.activo}]]</th>
                                             <th></th></tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="cita, contador : ${citas}">
+                                        <tr th:each="consulta, contador : ${consultas}">
                                             <td>[[${contador.count}]]</td>
-                                            <td>[[${cita.fecha}]]</td>
-                                            <td>[[${cita.nombreCliente}]]</td>
-                                            <td>[[${cita.telefonoCliente}]]</td>
-                                            <td>[[${cita.comentario}]]</td>
-                                            <td>[[${cita.rutaImagen}]]</td>
-                                            <td>[[${cita.activo}]]</td>
-                                            <td th:text="${cita.activo} ? 'Activa' : 'Inactiva'" />
-                                            <td><a th:href="@{/cita/eliminar/}+${cita.idCita}"
+                                            <td>[[${consulta.descripcion}]]</td>
+                                            <td>[[${consulta.rutaImagen}]]</td>
+                                            <td>[[${consulta.fecha}]]</td>
+                                            <td th:text="${consulta.activo} ? 'Activa' : 'Inactiva'" />
+                                            <td><a th:href="@{/consulta/eliminar/}+${consulta.idConsulta}"
                                                    class="btn btn-danger">
                                                     <i class="fas fa-trash"></i> [[#{accion.eliminar}]]</a>
-                                                <a th:href="@{/cita/modificar/}+${cita.idCita}"
+                                                <a th:href="@{/consulta/modificar/}+${consulta.idConsulta}"
                                                    class="btn btn-success">
                                                     <i class="fas fa-pencil"></i> [[#{accion.actualizar}]]</a></td></tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="text-center p-2" th:if="${citas == null or citas.empty}">
+                            <div class="text-center p-2" th:if="${consultas == null or consultas.empty}">
                                 <span>[[#{lista.vacia}]]</span>
                             </div>
                         </div>
@@ -122,8 +113,8 @@
                     <div class="col-md-3">
                         <div class="card text-center bg-success text-white mb-3">
                             <div class="card-body">
-                                <h3>[[#{cita.total}]]</h3>
-                                <h4 class="fs-2"><i class="fas fa-users"></i> [[${totalCitas}]]</h4>
+                                <h3>[[#{consulta.total}]]</h3>
+                                <h4 class="fs-2"><i class="fas fa-users"></i> [[${totalConsultas}]]</h4>
                             </div>
                         </div>
                     </div>
@@ -132,18 +123,18 @@
         </section>
 
         <!-- 4 Fragmento que se utiliza en la página modifca.html -->
-        <section th:fragment="editarCita">
+        <section th:fragment="editarConsulta">
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
                     <form method="POST"
-                          th:action="@{/cita/guardar}" 
-                          th:object="${cita}"
+                          th:action="@{/consulta/guardar}" 
+                          th:object="${consulta}"
                           class="was-validated"                          
                           enctype="multipart/form-data">
-                        <input type="hidden" name="idCita" th:field="*{idCita}"/>
+                        <input type="hidden" name="idConsulta" th:field="*{idConsulta}"/>
                         <input type="hidden" name="rutaImagen" th:field="*{rutaImagen}"/>
-                        <section th:replace="~{cita/fragmentos :: botonesEditar}"/>
+                        <section th:replace="~{consulta/fragmentos :: botonesEditar}"/>
                         <div id=details>
                             <div class="container">
                                 <div class="row">
@@ -154,42 +145,38 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="mb-3">
-                                                    <label for="fecha">[[#{cita.fecha}]]</label>
+                                                    <label for="titulo">[[#{consulta.titulo}]]</label>
                                                     <input type="text" class="form-control" 
-                                                           name="fechaHora" th:field="*{fecha}"
+                                                           name="descripcion" th:field="*{titulo}"
                                                            required="true">
                                                 </div>
+                                            <div class="card-body">
                                                 <div class="mb-3">
-                                                    <label for="nombreCliente">[[#{cita.nombreCliente}]]</label>
+                                                    <label for="descripcion">[[#{consulta.descripcion}]]</label>
                                                     <input type="text" class="form-control" 
-                                                           name="nombreCliente" th:field="*{nombreCliente}"
+                                                           name="descripcion" th:field="*{descripcion}"
                                                            required="true">
                                                 </div>
+                                                <div class="card-body">
                                                 <div class="mb-3">
-                                                    <label for="telefonoCliente">[[#{cita.telefonoCliente}]]</label>
+                                                    <label for="fecha">[[#{consulta.fecha}]]</label>
                                                     <input type="text" class="form-control" 
-                                                           name="telefonoCliente" th:field="*{telefonoCliente}"
+                                                           name="descripcion" th:field="*{fecha}"
                                                            required="true">
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="comentario">[[#{cita.comentario}]]</label>
-                                                    <input type="text" class="form-control" 
-                                                           name="comentario" th:field="*{comentario}"
-                                                           required="true">
+                                                    <div class="mb-3">
+                                                    <label for="imagen">[[#{consulta.rutaImagen}]]</label>
+                                                    <input class="form-control" type="file" name="imagenFile"
+                                                           onchange="readURL(this);" />
+                                                    <img id="blah" th:src="@{${consulta.rutaImagen}}" alt="your image" height="200"/>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="activo">[[#{cita.activo}]]</label>
+                                                    <label for="activo">[[#{consulta.activo}]]</label>
                                                     <input class="form-check-input" 
                                                            type="checkbox" 
                                                            name="activo" 
                                                            id="activo"
                                                            th:field="*{activo}">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="imagen">[[#{cita.rutaImagen}]]</label>
-                                                    <input class="form-control" type="file" name="imagenFile"
-                                                           onchange="readURL(this);" />
-                                                    <img id="blah" th:src="@{${cita.rutaImagen}}" alt="your image" height="200"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -206,12 +193,12 @@
             <div class="container py-4 mb-4 bg-light">
                 <div class="row">
                     <div class="col-md-4 d-grid">
-                        <a th:href="@{/cita/listado}" class="btn btn-primary">
+                        <a th:href="@{/consulta/listado}" class="btn btn-primary">
                             <i class="fas fa-arrow-left"></i> [[#{accion.regresar}]]
                         </a>
                     </div>
                     <div class="col-md-4 d-grid">                                
-                        <a th:href="@{/cita/eliminar/}+${cita.idCita}"
+                        <a th:href="@{/consulta/eliminar/}+${consulta.idConsulta}"
                            class="btn btn-danger">
                             <i class="fas fa-trash"></i> [[#{accion.eliminar}]]
                         </a>

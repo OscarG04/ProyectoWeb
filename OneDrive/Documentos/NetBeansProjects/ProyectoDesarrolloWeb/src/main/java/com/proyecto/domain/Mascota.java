@@ -23,8 +23,4 @@ public class Mascota {
 
     @Column(name = "condiciones_salud")
     private String condicionesSalud;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_cliente")
-    private Usuario propietario;
 }

@@ -18,7 +18,7 @@ public class Grooming implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_grooming")
     private Long idGrooming;
-    private LocalDateTime fechaHora;
+    private String fecha;
     private String nombreCliente;
     private String tipoCorte;
     private String telefonoCliente;

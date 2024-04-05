@@ -23,7 +23,8 @@ public class Consulta implements Serializable{
     private Long idConsulta;
     private String titulo;
     private String descripcion;
-    private LocalDateTime fechaHora;
+    private String fecha;
+    private String rutaImagen;
     private boolean activo;
     
 }
