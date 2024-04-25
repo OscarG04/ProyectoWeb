@@ -1,8 +1,17 @@
 package com.tienda_vi.service.impl;
 
 
+import com.tienda_vi.dao.FacturaDao;
+import com.tienda_vi.dao.ProductoDao;
+import com.tienda_vi.dao.UsuarioDao;
+import com.tienda_vi.dao.VentaDao;
+import com.tienda_vi.domain.Factura;
 import com.tienda_vi.domain.Item;
+import com.tienda_vi.domain.Producto;
+import com.tienda_vi.domain.Usuario;
+import com.tienda_vi.domain.Venta;
 import com.tienda_vi.service.ItemService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +20,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 
+
 @Service
 public class ItemServiceImpl implements ItemService {
+
+    // Define la lista listaItems
+    private List<Item> listaItems = new ArrayList<>();
 
     @Override
     public List<Item> gets() {
         return listaItems;
     }
+
 
     //Se usa en el addCarrito... agrega un elemento
     @Override
@@ -80,10 +94,53 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
+    @Autowired
+    private UsuarioDao usuarioDao;
+
+    @Autowired
+    private FacturaDao facturaDao;
+    @Autowired
+    private VentaDao ventaDao;
+    @Autowired
+    private ProductoDao productoDao;
+
     @Override
     public void facturar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    String username;
+    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    if (principal instanceof UserDetails userDetails) {
+        username = userDetails.getUsername();
+    } else {
+        username = principal.toString();
     }
 
-   
+    if (username.isBlank()) {
+        System.out.println("Nombre de usuario en blanco");
+        return;
+    }
+
+    Usuario usuario = usuarioDao.findByUsername(username);
+    if (usuario == null) {
+        System.out.println("Usuario no encontrado: " + username);
+        return;
+    }
+
+    Factura factura = new Factura(usuario.getIdUsuario());
+    factura = facturaDao.save(factura);
+
+    double total = 0;
+    for (Item i : listaItems) {
+        System.out.println("Procesando producto: " + i.getDescripcion());
+        Venta venta = new Venta(factura.getIdFactura(), i.getIdProducto(), i.getPrecio(), i.getCantidad());
+        ventaDao.save(venta);
+        Producto producto = productoDao.getById(i.getIdProducto());
+        producto.setExistencias(producto.getExistencias() - i.getCantidad());
+        productoDao.save(producto);
+        total += i.getCantidad() * i.getPrecio();
+    }
+
+    factura.setTotal(total);
+    facturaDao.save(factura);
+    listaItems.clear();
+}
 }

@@ -12,7 +12,7 @@
         
         <header th:replace="~{layout/plantilla :: header}"/> 
         
-        <div class="m-5">
+          <div class="m-5">
             <form method="post" th:action="@{/login}">
                 <input type ="text" name="username"/>
                 <br/>
@@ -21,6 +21,9 @@
                 <input type ="submit" value="login"/>
             </form>
         </div>
+
+                        
+
         
         <footer th:replace="~{layout/plantilla :: footer}"/>
         

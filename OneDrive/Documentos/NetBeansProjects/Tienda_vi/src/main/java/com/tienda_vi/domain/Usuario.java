@@ -1,4 +1,3 @@
-
 package com.tienda_vi.domain;
 
 import jakarta.persistence.*;
@@ -8,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="categoria")
+@Table(name="usuario")
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     
@@ -27,9 +26,14 @@ public class Usuario implements Serializable {
     private String rutaImagen;
     private boolean activo;
     
+    // Relación con la tabla Categoria
+    @ManyToOne
+    @JoinColumn(name="categoria_id", referencedColumnName="id_categoria")
+    private Categoria categoria;
     
+    // Mantenemos la relación con la tabla Rol
     @OneToMany
-    @JoinColumn (name="id_usuario", updatable = false)
+    @JoinColumn(name="id_usuario", referencedColumnName="id_usuario", updatable=false)
     private List<Rol> roles;
     
 }

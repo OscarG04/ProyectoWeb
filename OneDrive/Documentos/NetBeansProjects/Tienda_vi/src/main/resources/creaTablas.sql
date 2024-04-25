@@ -2,7 +2,6 @@
 drop schema if exists techshop;
 drop user if exists usuario_prueba;
 CREATE SCHEMA techshop ;
-
 /*Se crea un usuario para la base de datos llamado "usuario_prueba" y tiene la contraseña "Usuario_Clave."*/
 create user 'usuario_prueba'@'%' identified by 'Usuar1o_Clave.';
 
@@ -46,9 +45,11 @@ CREATE TABLE techshop.usuario (
   telefono VARCHAR(15) NULL,
   ruta_imagen varchar(1024),
   activo boolean,
-  PRIMARY KEY (`id_usuario`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4;
+  categoria_id INT, -- Nueva columna para la foreign key
+  PRIMARY KEY (`id_usuario`),
+  CONSTRAINT `fk_usuario_categoria` FOREIGN KEY (`categoria_id`) REFERENCES `techshop`.`categoria` (`id_categoria`)
+) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8mb4;
+
 
 create table techshop.factura (
   id_factura INT NOT NULL AUTO_INCREMENT,
@@ -88,7 +89,7 @@ INSERT INTO techshop.categoria (id_categoria,descripcion,ruta_imagen,activo) VAL
 ('3','Tarjeta Madre','https://static-geektopia.com/storage/thumbs/784x311/788/7884251b/98c0f4a5.webp',true),
 ('4','Celulares','https://www.monumental.co.cr/wp-content/uploads/2022/03/X4J2Z6XQUZDO7O6QTDF4DIJ3VE.jpeg',    false);
 
-/*Se insertan 4 productos por categoria */
+/*Se insertan 16 productos por categoria */
 INSERT INTO techshop.producto (id_producto,id_categoria,descripcion,detalle,precio,existencias,ruta_imagen,activo) VALUES
 (1,1,'Monitor AOC 19','Lorem ipsum dolor sit amet consectetur adipiscing elit iaculis, ullamcorper in fringilla eu cras tempor mi. Luctus blandit sapien mauris vestibulum consequat mattis taciti aliquam ullamcorper, sagittis suscipit etiam urna convallis interdum tempor bibendum, ultricies habitant viverra natoque dictum posuere senectus volutpat. Cum ad vehicula condimentum nunc lacus nec tellus eleifend, a platea curae nullam sollicitudin nibh class cursus taciti, posuere purus inceptos facilisis cubilia suspendisse ut.',23000,5,'https://c.pxhere.com/images/ec/fd/d67b367ed6467eb826842ac81d3b-1453591.jpg!d',true),
 (2,1,'Monitor MAC','Quisque in ridiculus scelerisque platea accumsan libero sem vel, mi cras metus cubilia tempor conubia fermentum volutpat gravida, maecenas semper sodales potenti turpis enim dapibus. Volutpat accumsan vivamus dignissim blandit vel eget posuere donec id, tempus sagittis aliquam erat luctus ornare aptent cubilia aliquet proin, ultrices ante pretium gravida sed vitae vestibulum aenean. Eleifend nascetur conubia ornare purus a eget at metus est risus natoque, elementum dis vulputate sociosqu integer ut ad nisl dui molestie.',27000,2,'https://c.pxhere.com/photos/17/77/Art_Calendar_Cc0_Creative_Design_High_Resolution_Mac_Stock-1622403.jpg!d',true),

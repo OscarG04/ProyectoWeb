@@ -88,7 +88,7 @@ public class CarritoController {
 
     //Para facturar los productos del carrito... no implementado...
     @GetMapping("/facturar/carrito")
-    public String facturarCarrito() {
+    public String facturar() {
         itemService.facturar();
         return "redirect:/";
     }
