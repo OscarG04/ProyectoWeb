@@ -5,13 +5,16 @@
 <head th:replace="~{layout/plantilla :: head}">
     <title>Farmacia Aurum</title>
 </head>
-<body>
-    <header th:replace="~{layout/plantilla :: header}"/>
-    
-
-    <section th:include="~{producto/fragmentos :: editarMascota}"/>
-    
-
-    <footer th:replace="~{layout/plantilla :: footer}"/>
-</body>
+    <body>
+        
+        <header th:replace="~{layout/plantilla :: header}"/>
+        
+        
+        <section th:replace="~{producto/fragmentos :: editarProducto}"/>
+        
+        
+        
+        <footer th:replace="~{layout/plantilla :: footer}"/>
+        
+    </body>
 </html>

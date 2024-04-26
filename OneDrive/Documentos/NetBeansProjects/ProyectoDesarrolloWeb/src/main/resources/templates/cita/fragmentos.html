@@ -91,7 +91,6 @@
                                             <th>[[#{cita.nombreCliente}]]</th>
                                             <th>[[#{cita.telefonoCliente}]]</th>
                                             <th>[[#{cita.comentario}]]</th>
-                                            <th>[[#{cita.rutaImagen}]]</th>
                                             <th>[[#{cita.activo}]]</th>
                                             <th></th></tr>
                                     </thead>
@@ -102,7 +101,6 @@
                                             <td>[[${cita.nombreCliente}]]</td>
                                             <td>[[${cita.telefonoCliente}]]</td>
                                             <td>[[${cita.comentario}]]</td>
-                                            <td>[[${cita.rutaImagen}]]</td>
                                             <td>[[${cita.activo}]]</td>
                                             <td th:text="${cita.activo} ? 'Activa' : 'Inactiva'" />
                                             <td><a th:href="@{/cita/eliminar/}+${cita.idCita}"
@@ -120,7 +118,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card text-center bg-success text-white mb-3">
+                        <div class="card text-center bg-warning text-dark mb-3">
                             <div class="card-body">
                                 <h3>[[#{cita.total}]]</h3>
                                 <h4 class="fs-2"><i class="fas fa-users"></i> [[${totalCitas}]]</h4>

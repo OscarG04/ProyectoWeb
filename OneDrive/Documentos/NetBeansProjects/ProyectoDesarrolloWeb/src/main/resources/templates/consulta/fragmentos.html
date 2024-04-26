@@ -85,15 +85,14 @@
                                             <th>[[#{consulta.titulo}]]</th>
                                             <th>[[#{consulta.descripcion}]]</th>
                                             <th>[[#{consulta.fecha}]]</th>
-                                            <th>[[#{consulta.rutaImagen}]]</th>
                                             <th>[[#{consulta.activo}]]</th>
                                             <th></th></tr>
                                     </thead>
                                     <tbody>
                                         <tr th:each="consulta, contador : ${consultas}">
                                             <td>[[${contador.count}]]</td>
+                                            <th>[[#{consulta.titulo}]]</th>
                                             <td>[[${consulta.descripcion}]]</td>
-                                            <td>[[${consulta.rutaImagen}]]</td>
                                             <td>[[${consulta.fecha}]]</td>
                                             <td th:text="${consulta.activo} ? 'Activa' : 'Inactiva'" />
                                             <td><a th:href="@{/consulta/eliminar/}+${consulta.idConsulta}"
@@ -111,7 +110,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card text-center bg-success text-white mb-3">
+                        <div class="card text-center bg-warning text-dark mb-3">
                             <div class="card-body">
                                 <h3>[[#{consulta.total}]]</h3>
                                 <h4 class="fs-2"><i class="fas fa-users"></i> [[${totalConsultas}]]</h4>

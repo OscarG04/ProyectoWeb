@@ -50,8 +50,27 @@
                                     <li><a class="dropdown-item"  th:href="@{/(lang=es)}">ES</a></li>
                                     <li><a class="dropdown-item" th:href="@{/(lang=en)}">EN</a></li>
                                 </ul>
+                                
                             </li>
                         </ul>
+                         <ul class="navbar-nav" sec:authorize="!isAuthenticated()">
+                            <li class="nav-item px-2 text-white">
+                                <a class="nav-link" th:href="@{/login}">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                </a>        
+                            </li>
+                        </ul>
+                        
+                        <ul class="navbar-nav" sec:authorize="isAuthenticated()">
+                            <li class="nav-item text-white my-auto">
+                                <img th:src="@{${session.imagenUsuario}}" height="40" alt="alt" class="rounded-circle"/>
+                                <span sec:authentication="name">xxx</span>       
+                            </li>
+                            <li class="nav-item text-white my-auto">
+                                <form method="post" th:action="@{/logout}">
+                                    <button class="btn btn-dark">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                    </button>
                     </div>
                 </div>
             </nav>

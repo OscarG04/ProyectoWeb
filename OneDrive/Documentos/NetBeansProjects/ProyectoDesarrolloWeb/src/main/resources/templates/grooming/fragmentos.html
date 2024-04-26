@@ -96,7 +96,6 @@
                                             <th>[[#{grooming.tipoCorte}]]</th>
                                             <th>[[#{grooming.telefonoCliente}]]</th>
                                             <th>[[#{grooming.comentario}]]</th>
-                                            <th>[[#{grooming.rutaImagen}]]</th>
                                             <th>[[#{grooming.activo}]]</th>
                                             <th></th></tr>
                                     </thead>
@@ -108,7 +107,6 @@
                                             <td>[[${grooming.tipoCorte}]]</td>
                                             <td>[[${grooming.telefonoCliente}]]</td>
                                             <td>[[${grooming.comentario}]]</td>
-                                            <td>[[${grooming.rutaImagen}]]</td>
                                             <td>[[${grooming.activo}]]</td>
                                             <td th:text="${grooming.activo} ? 'Activa' : 'Inactiva'" />
                                             <td><a th:href="@{/grooming/eliminar/}+${grooming.idGrooming}"
@@ -126,7 +124,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card text-center bg-success text-white mb-3">
+                        <div class="card text-center bg-warning text-dark mb-3">
                             <div class="card-body">
                                 <h3>[[#{grooming.total}]]</h3>
                                 <h4 class="fs-2"><i class="fas fa-users"></i> [[${totalGroomings}]]</h4>

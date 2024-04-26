@@ -81,7 +81,6 @@
                                         <tr><th>#</th>
                                             <th>[[#{cuidado.titulo}]]</th>
                                             <th>[[#{cuidado.descripcion}]]</th>
-                                            <th>[[#{cuidado.rutaImagen}]]</th>
                                             <th>[[#{cuidado.activo}]]</th>
                                             <th></th></tr>
                                     </thead>
@@ -90,7 +89,6 @@
                                             <td>[[${contador.count}]]</td>
                                             <td>[[#{cuidado.titulo}]]</td>
                                             <td>[[${cuidado.descripcion}]]</td>
-                                            <td>[[${cuidado.rutaImagen}]]</td>
                                             <td th:text="${cuidado.activo} ? 'Activa' : 'Inactiva'" />
                                             <td><a th:href="@{/cuidado/eliminar/}+${cuidado.idCuidado}"
                                                    class="btn btn-danger">
@@ -107,7 +105,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="card text-center bg-success text-white mb-3">
+                        <div class="card text-center bg-warning text-dark mb-3">
                             <div class="card-body">
                                 <h3>[[#{cuidado.total}]]</h3>
                                 <h4 class="fs-2"><i class="fas fa-users"></i> [[${totalCuidados}]]</h4>
